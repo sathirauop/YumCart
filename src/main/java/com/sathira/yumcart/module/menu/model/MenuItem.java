@@ -1,5 +1,6 @@
 package com.sathira.yumcart.module.menu.model;
 
+import com.sathira.yumcart.module.restaurant.model.Restaurant;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -25,7 +26,6 @@ public class MenuItem {
     @Column(nullable = false)
     private BigDecimal price;
 
-
     private String image;
 
     @ManyToOne
@@ -44,4 +44,8 @@ public class MenuItem {
     private Set<DietaryLabel> dietaryLabels = new HashSet<>();
 
     //TODO : When the other modules build we have to add more attributes like restaurent
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 }

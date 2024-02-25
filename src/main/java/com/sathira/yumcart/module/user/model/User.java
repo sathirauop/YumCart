@@ -1,6 +1,4 @@
 package com.sathira.yumcart.module.user.model;
-
-
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @JsonIncludeProperties({"id", "userName", "firstName", "lastname", "phoneNumber", "address", "email"})
 public class User {
 
