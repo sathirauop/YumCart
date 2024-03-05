@@ -1,7 +1,12 @@
 package com.sathira.yumcart.module.menu.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sathira.yumcart.module.restaurant.model.Restaurant;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,6 +16,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "menuitem")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter @Setter
 public class MenuItem {
 
     @Id
@@ -29,7 +37,7 @@ public class MenuItem {
     private String image;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @OneToMany(mappedBy = "menuItem", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -47,5 +55,6 @@ public class MenuItem {
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
+    @JsonBackReference
     private Restaurant restaurant;
 }
