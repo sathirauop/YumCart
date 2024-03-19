@@ -1,5 +1,7 @@
 package com.sathira.yumcart.module.menu.controller;
 
+import com.sathira.yumcart.module.menu.dto.MenuItemResponseDTO;
+import com.sathira.yumcart.module.menu.dto.StandAloneMenuItemResponseDTO;
 import com.sathira.yumcart.module.menu.model.MenuItem;
 import com.sathira.yumcart.module.menu.service.MenuItemService;
 import com.sathira.yumcart.module.restaurant.model.Restaurant;
@@ -12,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.PublicKey;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/menuItems")
+@RequestMapping("/api/v1/menuItems")
 public class MenuItemController {
 
     private final MenuItemService menuItemService;
@@ -24,11 +27,16 @@ public class MenuItemController {
         this.menuItemService = menuItemService;
     }
 
-    @GetMapping("/{restaurantId}/menuItems")
-    public ResponseEntity<List<MenuItem>> getMenuItemsbyRestaurantId(@PathVariable Long restaurantId){
-        List<MenuItem> menuItems = menuItemService.getMenuItemsbyRestaurent(restaurantId);
+    @GetMapping("/{restaurantId}/restaurant")
+    public ResponseEntity<List<MenuItemResponseDTO>> getMenuItemsbyRestaurantId(@PathVariable Long restaurantId){
+        List<MenuItemResponseDTO> menuItems = menuItemService.getMenuItemsbyRestaurent(restaurantId);
         return ResponseEntity.ok(menuItems);
     }
 
-    // Define endpoints for CRUD operations on menu items
+    @GetMapping("/{categoryName}/category")
+    public ResponseEntity<List<StandAloneMenuItemResponseDTO>> getMenuItemsbyCategoryName(@PathVariable String categoryName){
+        List<StandAloneMenuItemResponseDTO> menuItems = menuItemService.getMenuItemsbyCategoryName(categoryName);
+        return ResponseEntity.ok(menuItems);
+    }
+
 }

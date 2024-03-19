@@ -1,7 +1,10 @@
 package com.sathira.yumcart.module.restaurant.service;
 
 
+import com.sathira.yumcart.module.menu.dto.MenuItemResponseDTO;
 import com.sathira.yumcart.module.menu.model.MenuItem;
+import com.sathira.yumcart.module.restaurant.dto.RestaurantDTO;
+import com.sathira.yumcart.module.restaurant.dto.RestaurantResponseDTO;
 import com.sathira.yumcart.module.restaurant.model.Restaurant;
 import com.sathira.yumcart.module.restaurant.repository.RestaurantRepository;
 import jakarta.transaction.Transactional;
@@ -14,13 +17,14 @@ import java.util.List;
 public interface RestaurantService {
 
 
-    public Restaurant getRestaurant(Long id);
+    public RestaurantResponseDTO getRestaurant(Long id);
 
-    public Restaurant save(Restaurant restaurant);
+    public Restaurant createRestaurant(RestaurantDTO restaurantDto);
 
     public void deleteRestaurant(Long id);
 
-    public List<Restaurant> getRestaurants();
-    public List<MenuItem> getRestaurantMenuItems(Long id);
+    public List<RestaurantResponseDTO> getRestaurants();
+
+    public List<MenuItemResponseDTO> getRestaurantMenuItems(Long id);
 
 }

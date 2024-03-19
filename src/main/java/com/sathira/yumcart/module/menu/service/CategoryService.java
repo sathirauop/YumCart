@@ -1,6 +1,7 @@
 package com.sathira.yumcart.module.menu.service;
 
 import com.sathira.yumcart.module.menu.model.Category;
+import com.sathira.yumcart.module.menu.model.MenuItem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface CategoryService {
     Category saveCategory(Category category);
     void deleteCategory(Long id);
     Optional<Category> findCategoryByName(String name);
+
 }

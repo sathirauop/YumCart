@@ -1,6 +1,8 @@
 package com.sathira.yumcart.module.menu.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sathira.yumcart.module.restaurant.model.Restaurant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,6 +40,7 @@ public class MenuItem {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private Category category;
 
     @OneToMany(mappedBy = "menuItem", cascade = CascadeType.ALL, orphanRemoval = true)
