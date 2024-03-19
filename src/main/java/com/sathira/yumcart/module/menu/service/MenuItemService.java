@@ -18,9 +18,9 @@ public interface MenuItemService {
 
     public List<MenuItemResponseDTO> getMenuItemsbyRestaurent(Long id);
 
-    public List<StandAloneMenuItemResponseDTO> getMenuItemsbyCategory(Long id);
+    public List<MenuItemResponseDTO> getMenuItemsbyCategory(Long id);
 
-    public List<StandAloneMenuItemResponseDTO> getMenuItemsbyCategoryName(String name);
+    public List<MenuItemResponseDTO> getMenuItemsbyCategoryName(String name);
 
 
 }

@@ -18,8 +18,8 @@ public class MenuItemResponseDTO {
     private String description;
     private BigDecimal price;
     private String image;
-    private Category category;
-//    private Restaurant restaurant;
+    private String category;
+    private String restaurant;
 //  private List<MenuItemPortion> portions;
 //  private Set<DietaryLabel> dietaryLabels;
 }

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+// Currently this class is not using
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

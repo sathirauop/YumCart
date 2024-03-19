@@ -85,13 +85,16 @@ public class RestaurantServiceImpl implements RestaurantService{
     }
 
     private MenuItemResponseDTO convertMenuItemToResponseDTO(MenuItem menuItem) {
+        String categoryName = menuItem.getCategory() != null ? menuItem.getCategory().getName() : null;
+        String restaurantName = menuItem.getRestaurant() != null ? menuItem.getRestaurant().getName() : null;
         return new MenuItemResponseDTO(
                 menuItem.getId(),
                 menuItem.getName(),
                 menuItem.getDescription(),
                 menuItem.getPrice(),
                 menuItem.getImage(),
-                menuItem.getCategory()
+                categoryName,
+                restaurantName
         );
     }
 

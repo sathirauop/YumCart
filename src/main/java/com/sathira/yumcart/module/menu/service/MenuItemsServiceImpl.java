@@ -50,31 +50,33 @@ public class MenuItemsServiceImpl implements MenuItemService{
         return menuItemList.stream()
                 .map(this::convertMenuItemToResponseDTO)
                 .collect(Collectors.toList());
-//        return menuItemRepository.findByRestaurantId(id);
     }
 
     @Override
-    public List<StandAloneMenuItemResponseDTO> getMenuItemsbyCategory(Long id) {
+    public List<MenuItemResponseDTO> getMenuItemsbyCategory(Long id) {
         List<MenuItem> menuItemList = menuItemRepository.findByCategoryId(id);
         return menuItemList.stream()
-                .map(this::convertMenuItemToStandAloneResponseDTO)
+                .map(this::convertMenuItemToResponseDTO)
                 .collect(Collectors.toList());
     }
     @Override
-    public List<StandAloneMenuItemResponseDTO> getMenuItemsbyCategoryName(String name) {
+    public List<MenuItemResponseDTO> getMenuItemsbyCategoryName(String name) {
         Optional<Category> category = categoryRepository.findByName(name);
-        List<StandAloneMenuItemResponseDTO> menuItems = this.getMenuItemsbyCategory(category.orElseThrow().getId());
+        List<MenuItemResponseDTO> menuItems = this.getMenuItemsbyCategory(category.orElseThrow().getId());
         return menuItems;
     }
 
     private MenuItemResponseDTO convertMenuItemToResponseDTO(MenuItem menuItem) {
+        String restaurantName = menuItem.getRestaurant() != null ? menuItem.getRestaurant().getName() : null;
+        String categoryName = menuItem.getCategory() != null ? menuItem.getCategory().getName() : null;
         return new MenuItemResponseDTO(
                 menuItem.getId(),
                 menuItem.getName(),
                 menuItem.getDescription(),
                 menuItem.getPrice(),
                 menuItem.getImage(),
-                menuItem.getCategory()
+                categoryName,
+                restaurantName
         );
     }
 

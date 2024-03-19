@@ -1,8 +1,6 @@
 package com.sathira.yumcart.module.menu.controller;
 
 import com.sathira.yumcart.module.menu.model.Category;
-import com.sathira.yumcart.module.menu.model.MenuItem;
-import com.sathira.yumcart.module.menu.repository.CategoryRepository;
 import com.sathira.yumcart.module.menu.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
