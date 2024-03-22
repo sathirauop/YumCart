@@ -1,5 +1,6 @@
 package com.sathira.yumcart.module.menu.controller;
 
+import com.sathira.yumcart.module.menu.dto.CategoryResposeDTO;
 import com.sathira.yumcart.module.menu.model.Category;
 import com.sathira.yumcart.module.menu.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class CategoryController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Category>> getAllCategories(){
-        List<Category> categories = categoryService.findAllCategories();
+    public ResponseEntity<List<CategoryResposeDTO>> getAllCategories(){
+        List<CategoryResposeDTO> categories = categoryService.findAllCategories();
         return ResponseEntity.ok(categories);
     }
 

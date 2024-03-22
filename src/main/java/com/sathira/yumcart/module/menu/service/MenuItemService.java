@@ -1,5 +1,6 @@
 package com.sathira.yumcart.module.menu.service;
 
+import com.sathira.yumcart.module.menu.dto.MenuItemDTO;
 import com.sathira.yumcart.module.menu.dto.MenuItemResponseDTO;
 import com.sathira.yumcart.module.menu.dto.StandAloneMenuItemResponseDTO;
 import com.sathira.yumcart.module.menu.model.MenuItem;
@@ -21,6 +22,8 @@ public interface MenuItemService {
     public List<MenuItemResponseDTO> getMenuItemsbyCategory(Long id);
 
     public List<MenuItemResponseDTO> getMenuItemsbyCategoryName(String name);
+
+    public MenuItemResponseDTO createMenuItem(MenuItemDTO menuItemDTO);
 
 
 }

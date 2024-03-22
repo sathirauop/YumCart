@@ -1,14 +1,15 @@
 package com.sathira.yumcart.module.menu.controller;
 
+import com.sathira.yumcart.module.menu.dto.MenuItemDTO;
 import com.sathira.yumcart.module.menu.dto.MenuItemResponseDTO;
 import com.sathira.yumcart.module.menu.dto.StandAloneMenuItemResponseDTO;
 import com.sathira.yumcart.module.menu.service.MenuItemService;
+import com.sathira.yumcart.module.restaurant.dto.RestaurantDTO;
+import com.sathira.yumcart.module.restaurant.model.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +35,9 @@ public class MenuItemController {
         List<MenuItemResponseDTO> menuItems = menuItemService.getMenuItemsbyCategoryName(categoryName);
         return ResponseEntity.ok(menuItems);
     }
+//    @PostMapping()
+//    public ResponseEntity<Restaurant> saveMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
+//        return new ResponseEntity<>(menuItemService.createMenuItem(menuItemDTO), HttpStatus.CREATED);
+//    }
 
 }

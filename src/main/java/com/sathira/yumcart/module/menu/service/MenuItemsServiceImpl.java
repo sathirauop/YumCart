@@ -1,5 +1,6 @@
 package com.sathira.yumcart.module.menu.service;
 
+import com.sathira.yumcart.module.menu.dto.MenuItemDTO;
 import com.sathira.yumcart.module.menu.dto.MenuItemResponseDTO;
 import com.sathira.yumcart.module.menu.dto.StandAloneMenuItemResponseDTO;
 import com.sathira.yumcart.module.menu.model.Category;
@@ -8,6 +9,7 @@ import com.sathira.yumcart.module.menu.repository.CategoryRepository;
 import com.sathira.yumcart.module.menu.repository.MenuItemRepository;
 import com.sathira.yumcart.module.restaurant.dto.RestaurantResponseDTO;
 import com.sathira.yumcart.module.restaurant.model.Restaurant;
+import com.sathira.yumcart.module.restaurant.service.RestaurantService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -23,10 +25,14 @@ public class MenuItemsServiceImpl implements MenuItemService{
 
     MenuItemRepository menuItemRepository;
     CategoryRepository categoryRepository;
+    CategoryService categoryService;
+    RestaurantService restaurantService;
 
-    public MenuItemsServiceImpl(MenuItemRepository menuItemRepository, CategoryRepository categoryRepository ){
+    public MenuItemsServiceImpl(MenuItemRepository menuItemRepository, CategoryRepository categoryRepository, CategoryService categoryService, RestaurantService restaurantService ){
         this.menuItemRepository = menuItemRepository;
         this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
+        this.restaurantService = restaurantService;
     }
 
     @Override
@@ -64,6 +70,15 @@ public class MenuItemsServiceImpl implements MenuItemService{
         Optional<Category> category = categoryRepository.findByName(name);
         List<MenuItemResponseDTO> menuItems = this.getMenuItemsbyCategory(category.orElseThrow().getId());
         return menuItems;
+    }
+
+    @Override
+    public MenuItemResponseDTO createMenuItem(MenuItemDTO menuItemDTO) {
+        String restaurentName = menuItemDTO.getRestaurant();
+        String categoryName = menuItemDTO.getCategory();
+        Optional<Category> category = categoryService.findCategoryByName(categoryName) ;
+        RestaurantResponseDTO restaurant = restaurantService.getRestaurant(1L);
+        return null;
     }
 
     private MenuItemResponseDTO convertMenuItemToResponseDTO(MenuItem menuItem) {
