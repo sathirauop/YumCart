@@ -33,9 +33,9 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<MenuItem> menuItems;
 
-    public void addMenuItem(MenuItem menuItem) {
-        menuItems.add(menuItem);
-        menuItem.setCategory(this);
+    public void addMenuItems(MenuItem item) {
+        menuItems.add(item);
+        item.setCategory(this);
     }
 
 }

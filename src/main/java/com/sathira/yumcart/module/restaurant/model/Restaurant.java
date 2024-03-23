@@ -41,15 +41,15 @@
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = false)
         private List<Review> reviews;
 
-        public void addMenuItem(MenuItem menuItem) {
-            menuItems.add(menuItem);
-            menuItem.setRestaurant(this);
-        }
-
-        public void removeMenuItem(MenuItem menuItem) {
-            menuItems.remove(menuItem);
-            menuItem.setRestaurant(null);
-        }
+//        public void addMenuItem(MenuItem menuItem) {
+//            menuItems.add(menuItem);
+//            menuItem.setRestaurant(this);
+//        }
+//
+//        public void removeMenuItem(MenuItem menuItem) {
+//            menuItems.remove(menuItem);
+//            menuItem.setRestaurant(null);
+//        }
 
 
     }
