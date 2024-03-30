@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface MenuItemService {
 
-    public StandAloneMenuItemResponseDTO getMenuItem(Long id);
+    public MenuItemResponseDTO getMenuItem(Long id);
 
     public MenuItem save(MenuItem menuItem);
 

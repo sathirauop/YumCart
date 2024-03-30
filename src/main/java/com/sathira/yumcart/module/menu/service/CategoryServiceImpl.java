@@ -1,12 +1,9 @@
 package com.sathira.yumcart.module.menu.service;
 
 import com.sathira.yumcart.module.menu.dto.CategoryResposeDTO;
-import com.sathira.yumcart.module.menu.dto.MenuItemResponseDTO;
+import com.sathira.yumcart.module.menu.mapper.CategoryMapper;
 import com.sathira.yumcart.module.menu.model.Category;
-import com.sathira.yumcart.module.menu.model.MenuItem;
 import com.sathira.yumcart.module.menu.repository.CategoryRepository;
-import com.sathira.yumcart.module.restaurant.dto.RestaurantResponseDTO;
-import com.sathira.yumcart.module.restaurant.model.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +15,11 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService{
 
     private CategoryRepository categoryRepository;
+    private CategoryMapper categoryMapper;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository,CategoryMapper categoryMapper) {
+        this.categoryMapper = categoryMapper;
         this.categoryRepository = categoryRepository;
     }
 
@@ -29,13 +28,24 @@ public class CategoryServiceImpl implements CategoryService{
     public List<CategoryResposeDTO> findAllCategories() {
         List<Category> categoryList = categoryRepository.findAll();
         return categoryList.stream()
-                .map(this::convertRestaurentToResponseDTO)
+                .map(categoryMapper::convertCategoryToResponseDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Category> findCategoryById(Long id) {
-        return categoryRepository.findById(id);
+    public List<CategoryResposeDTO> findCategoriesbyRestaurant(Long restaurantId) {
+        List<Category> categories =  categoryRepository.findByRestaurantId(restaurantId);
+        return categories.stream()
+                .map(categoryMapper::convertCategoryToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public CategoryResposeDTO findCategoryById(Long id) {
+        Optional<Category> category =  categoryRepository.findById(id);
+        CategoryResposeDTO  categoryDTO = categoryMapper.convertCategoryToResponseDTO(category.get());
+//        List<MenuItemResponseDTO> menuItems = this.getMenuItemsbyCategory(category.orElseThrow().getId());
+        return categoryDTO;
     }
 
     @Override
@@ -49,37 +59,12 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public Optional<Category> findCategoryByName(String name) {
-        return categoryRepository.findByName(name);
+    public CategoryResposeDTO findCategoryByName(String name) {
+        Optional<Category> category =  categoryRepository.findByName(name);
+        CategoryResposeDTO  categoryDTO = categoryMapper.convertCategoryToResponseDTO(category.get());
+//        List<MenuItemResponseDTO> menuItems = this.getMenuItemsbyCategory(category.orElseThrow().getId());
+        return categoryDTO;
     }
 
-    private CategoryResposeDTO convertRestaurentToResponseDTO(Category category) {
-        List<MenuItemResponseDTO> menuItemResponseDTOs = category.getMenuItems().stream()
-                .map(this::convertMenuItemToResponseDTO) // You need to implement this method
-                .collect(Collectors.toList());
 
-        // Similar conversion for reviews if needed
-
-        return new CategoryResposeDTO(
-                category.getId(),
-                category.getName(),
-                category.getDescription(),
-                menuItemResponseDTOs
-        );
-        // Include reviews in the constructor if you're handling them
-    }
-
-    private MenuItemResponseDTO convertMenuItemToResponseDTO(MenuItem menuItem) {
-        String restaurantName = menuItem.getRestaurant() != null ? menuItem.getRestaurant().getName() : null;
-        String categoryName = menuItem.getCategory() != null ? menuItem.getCategory().getName() : null;
-        return new MenuItemResponseDTO(
-                menuItem.getId(),
-                menuItem.getName(),
-                menuItem.getDescription(),
-                menuItem.getPrice(),
-                menuItem.getImage(),
-                categoryName,
-                restaurantName
-        );
-    }
 }

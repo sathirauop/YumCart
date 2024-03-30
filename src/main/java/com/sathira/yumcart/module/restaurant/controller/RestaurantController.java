@@ -3,6 +3,7 @@
     import com.sathira.yumcart.module.menu.dto.MenuItemResponseDTO;
     import com.sathira.yumcart.module.menu.model.MenuItem;
     import com.sathira.yumcart.module.restaurant.dto.RestaurantDTO;
+    import com.sathira.yumcart.module.restaurant.dto.RestaurantListResponseDTO;
     import com.sathira.yumcart.module.restaurant.dto.RestaurantResponseDTO;
     import com.sathira.yumcart.module.restaurant.model.Restaurant;
     import com.sathira.yumcart.module.restaurant.service.RestaurantService;
@@ -25,9 +26,9 @@
             this.restaurantService = restaurantService;
         }
 
-        @GetMapping()
-        public ResponseEntity<List<RestaurantResponseDTO>> getAllRestaurants() {
-            List<RestaurantResponseDTO> restaurants = restaurantService.getRestaurants();
+        @GetMapping("/list")
+        public ResponseEntity<List<RestaurantListResponseDTO>> getAllRestaurantsMinimalDetailList() {
+            List<RestaurantListResponseDTO> restaurants = restaurantService.getRestaurantsList();
             return ResponseEntity.ok(restaurants);
         }
 

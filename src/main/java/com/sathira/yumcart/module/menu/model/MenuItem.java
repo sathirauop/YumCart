@@ -38,9 +38,9 @@ public class MenuItem {
 
     private String image;
 
+    @Getter
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonIgnore
     private Category category;
 
     @OneToMany(mappedBy = "menuItem", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -58,6 +58,10 @@ public class MenuItem {
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
-    @JsonBackReference
     private Restaurant restaurant;
+
+    public Category getCategory(){
+        return this.category;
+    }
+
 }

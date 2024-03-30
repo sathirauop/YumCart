@@ -34,17 +34,21 @@ public class CategoryController {
     }
 
     @GetMapping("/id/{categoryId}")
-    public ResponseEntity<Category> getCategorybyId(@PathVariable Long categoryId){
-        Optional<Category> category = categoryService.findCategoryById(categoryId);
-        return category.map(ResponseEntity::ok) // if category is present, wrap it in a ResponseEntity with OK status
-                .orElseGet(() -> ResponseEntity.notFound().build()); // if not present, return 404 Not Found
+    public ResponseEntity<CategoryResposeDTO> getCategorybyId(@PathVariable Long categoryId){
+        CategoryResposeDTO category = categoryService.findCategoryById(categoryId);
+        return ResponseEntity.ok(category);
     }
 
     @GetMapping("/name/{categoryName}")
-    public ResponseEntity<Category> getCategorybyName(@PathVariable String categoryName){
-        Optional<Category> category = categoryService.findCategoryByName(categoryName);
-        return category.map(ResponseEntity::ok) // if category is present, wrap it in a ResponseEntity with OK status
-                .orElseGet(() -> ResponseEntity.notFound().build()); // if not present, return 404 Not Found
+    public ResponseEntity<CategoryResposeDTO> getCategorybyName(@PathVariable String categoryName){
+        CategoryResposeDTO categories = categoryService.findCategoryByName(categoryName);
+        return ResponseEntity.ok(categories);
+    }
+
+    @GetMapping("/{restaurantId}")
+    public ResponseEntity<List<CategoryResposeDTO>> getCategorybyRestaurant(@PathVariable Long restaurantId){
+        List<CategoryResposeDTO> categories = categoryService.findCategoriesbyRestaurant (restaurantId);
+        return ResponseEntity.ok(categories);
     }
 
 }
