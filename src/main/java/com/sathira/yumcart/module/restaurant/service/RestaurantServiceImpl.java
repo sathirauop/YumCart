@@ -1,10 +1,13 @@
 package com.sathira.yumcart.module.restaurant.service;
 
 import com.sathira.yumcart.module.menu.dto.MenuItemResponseDTO;
+import com.sathira.yumcart.module.menu.mapper.MenuItemMapper;
 import com.sathira.yumcart.module.menu.model.MenuItem;
 import com.sathira.yumcart.module.menu.repository.MenuItemRepository;
 import com.sathira.yumcart.module.restaurant.dto.RestaurantDTO;
+import com.sathira.yumcart.module.restaurant.dto.RestaurantListResponseDTO;
 import com.sathira.yumcart.module.restaurant.dto.RestaurantResponseDTO;
+import com.sathira.yumcart.module.restaurant.mapper.RestaurantMapper;
 import com.sathira.yumcart.module.restaurant.model.Restaurant;
 import com.sathira.yumcart.module.restaurant.repository.RestaurantRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,18 +24,23 @@ public class RestaurantServiceImpl implements RestaurantService{
     private final RestaurantRepository restaurantRepository;
     private final MenuItemRepository menuitemRepository;
 
+    private final RestaurantMapper restaurantMapper;
+    private final MenuItemMapper menuItemMapper;
+
     @Autowired
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, MenuItemRepository menuitemRepository ) {
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, MenuItemRepository menuitemRepository, RestaurantMapper restaurantMapper, MenuItemMapper menuItemMapper) {
         this.restaurantRepository = restaurantRepository;
         this.menuitemRepository = menuitemRepository;
+        this.restaurantMapper = restaurantMapper;
+        this.menuItemMapper = menuItemMapper;
     }
 
     @Override
     @Transactional
-    public List<RestaurantResponseDTO> getRestaurants() {
+    public List<RestaurantListResponseDTO> getRestaurantsList() {
         List<Restaurant> restaurantList =  restaurantRepository.findAll();
         return restaurantList.stream()
-                .map(this::convertRestaurentToResponseDTO)
+                .map(restaurantMapper::convertRestaurentToResponseListDTO)
                 .collect(Collectors.toList());
     }
 
@@ -40,7 +48,7 @@ public class RestaurantServiceImpl implements RestaurantService{
     public List<MenuItemResponseDTO> getRestaurantMenuItems(Long id) {
         List<MenuItem> menuItemList = menuitemRepository.findByRestaurantId(id);
         return menuItemList.stream()
-                .map(this::convertMenuItemToResponseDTO)
+                .map(menuItemMapper::convertMenuItemToResponseDTO)
                 .collect(Collectors.toList());
     }
 
@@ -48,7 +56,7 @@ public class RestaurantServiceImpl implements RestaurantService{
     public RestaurantResponseDTO getRestaurant(Long id) {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Restaurant not found with id: " + id));
-        return convertRestaurentToResponseDTO(restaurant);
+        return restaurantMapper.convertRestaurentToResponseDTO(restaurant);
     }
 
     @Override
@@ -66,37 +74,8 @@ public class RestaurantServiceImpl implements RestaurantService{
         restaurantRepository.deleteById(id);
     }
 
-
-    private RestaurantResponseDTO convertRestaurentToResponseDTO(Restaurant restaurant) {
-        List<MenuItemResponseDTO> menuItemResponseDTOs = restaurant.getMenuItems().stream()
-                .map(this::convertMenuItemToResponseDTO) // You need to implement this method
-                .collect(Collectors.toList());
-
-        // Similar conversion for reviews if needed
-
-        return new RestaurantResponseDTO(
-                restaurant.getId(),
-                restaurant.getName(),
-                restaurant.getAddress(),
-                restaurant.getPhoneNumber(),
-                menuItemResponseDTOs
-        );
-        // Include reviews in the constructor if you're handling them
+    @Override
+    public List<RestaurantResponseDTO> getRestaurants() {
+        return null;
     }
-
-    private MenuItemResponseDTO convertMenuItemToResponseDTO(MenuItem menuItem) {
-        String categoryName = menuItem.getCategory() != null ? menuItem.getCategory().getName() : null;
-        String restaurantName = menuItem.getRestaurant() != null ? menuItem.getRestaurant().getName() : null;
-        return new MenuItemResponseDTO(
-                menuItem.getId(),
-                menuItem.getName(),
-                menuItem.getDescription(),
-                menuItem.getPrice(),
-                menuItem.getImage(),
-                categoryName,
-                restaurantName
-        );
-    }
-
-
 }
