@@ -19,14 +19,4 @@ public interface RestaurantMapper {
 
     RestaurantResponseDTO convertRestaurentToResponseDTO(Restaurant restaurant);
 
-//    // Custom mapping method for menu items list
-//    default List<MenuItemListResponseDTO> mapMenuItems(List<MenuItem> menuItems) {
-//        if (menuItems == null) {
-//            return null;
-//        }
-//        return menuItems.stream()
-//                .map(MenuItemMapper.INSTANCE::menuItemToMenuItemResponseDTO)
-//                .collect(Collectors.toList());
-//    }
-
 }

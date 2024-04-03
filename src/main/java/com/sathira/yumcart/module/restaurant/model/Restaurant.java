@@ -16,14 +16,13 @@
     @NoArgsConstructor
     @Getter
     @Setter
-    //@RequiredArgsConstructor
     public class Restaurant {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @Column(nullable = false)
+        @Column(nullable = false, unique = true)
         private String name;
 
         @Column(nullable = false)
@@ -35,11 +34,9 @@
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = false)
         private List<OpeningHours> openingHours;
 
-        // Assuming each restaurant has a unique menu
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = false)
         private List<MenuItem> menuItems;
 
-    //     If implementing reviews
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = false)
         private List<Review> reviews;
 

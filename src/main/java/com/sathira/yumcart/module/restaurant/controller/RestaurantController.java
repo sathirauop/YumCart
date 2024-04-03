@@ -34,8 +34,8 @@
 
         @GetMapping(value = "/id/{restaurantId}")
         public ResponseEntity<RestaurantResponseDTO> getRestaurant(@PathVariable Long restaurantId) {
-            RestaurantResponseDTO restaurants = restaurantService.getRestaurant(restaurantId);
-            return ResponseEntity.ok(restaurants);
+            RestaurantResponseDTO restaurant = restaurantService.getRestaurant(restaurantId);
+            return ResponseEntity.ok(restaurant);
         }
 
         @GetMapping("/{restaurantId}/menuItems")
