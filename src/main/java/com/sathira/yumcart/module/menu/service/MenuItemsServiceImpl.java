@@ -12,6 +12,7 @@ import com.sathira.yumcart.module.menu.repository.MenuItemRepository;
 import com.sathira.yumcart.module.restaurant.dto.RestaurantResponseDTO;
 import com.sathira.yumcart.module.restaurant.model.Restaurant;
 import com.sathira.yumcart.module.restaurant.service.RestaurantService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -30,7 +31,6 @@ public class MenuItemsServiceImpl implements MenuItemService{
     CategoryRepository categoryRepository;
     CategoryService categoryService;
     RestaurantService restaurantService;
-
     MenuItemMapper mapper;
 
     @Autowired
@@ -45,7 +45,7 @@ public class MenuItemsServiceImpl implements MenuItemService{
     @Override
     public MenuItemResponseDTO getMenuItem(Long id) {
         Optional<MenuItem> menuItemOptional =  menuItemRepository.findById(id);
-        return mapper.convertMenuItemToResponseDTO(menuItemOptional.get());
+        return mapper.convertMenuItemToResponseDTO(unwrapMenuItem(menuItemOptional));
     }
 
     @Override
@@ -76,7 +76,7 @@ public class MenuItemsServiceImpl implements MenuItemService{
     @Override
     public List<MenuItemResponseDTO> getMenuItemsbyCategoryName(String name) {
         Optional<Category> category = categoryRepository.findByName(name);
-        List<MenuItemResponseDTO> menuItems = this.getMenuItemsbyCategory(category.orElseThrow().getId());
+        List<MenuItemResponseDTO> menuItems = this.getMenuItemsbyCategory(((CategoryServiceImpl)categoryService).unwrapCategory(category).getId());
         return menuItems;
     }
 
@@ -87,5 +87,9 @@ public class MenuItemsServiceImpl implements MenuItemService{
         CategoryResposeDTO category = categoryService.findCategoryByName(categoryName) ;
         RestaurantResponseDTO restaurant = restaurantService.getRestaurant(1L);
         return null;
+    }
+    static MenuItem unwrapMenuItem(Optional<MenuItem> entity) {
+        if (entity.isPresent()) return entity.get();
+        else throw new EntityNotFoundException();
     }
 }

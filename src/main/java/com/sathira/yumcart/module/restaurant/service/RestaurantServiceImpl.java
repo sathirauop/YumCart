@@ -10,13 +10,19 @@ import com.sathira.yumcart.module.restaurant.dto.RestaurantResponseDTO;
 import com.sathira.yumcart.module.restaurant.mapper.RestaurantMapper;
 import com.sathira.yumcart.module.restaurant.model.Restaurant;
 import com.sathira.yumcart.module.restaurant.repository.RestaurantRepository;
+import com.sathira.yumcart.utils.exceptions.DuplicateEntityException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService{
@@ -26,6 +32,8 @@ public class RestaurantServiceImpl implements RestaurantService{
 
     private final RestaurantMapper restaurantMapper;
     private final MenuItemMapper menuItemMapper;
+
+    private static final Logger logger = LoggerFactory.getLogger(RestaurantServiceImpl.class);
 
     @Autowired
     public RestaurantServiceImpl(RestaurantRepository restaurantRepository, MenuItemRepository menuitemRepository, RestaurantMapper restaurantMapper, MenuItemMapper menuItemMapper) {
@@ -46,6 +54,10 @@ public class RestaurantServiceImpl implements RestaurantService{
 
     @Override
     public List<MenuItemResponseDTO> getRestaurantMenuItems(Long id) {
+        if (!restaurantRepository.existsById(id)) {
+            logger.error("Failed to find restaurant with id {}", id);
+            throw new EntityNotFoundException("Restaurant not found with id: " + id);
+        }
         List<MenuItem> menuItemList = menuitemRepository.findByRestaurantId(id);
         return menuItemList.stream()
                 .map(menuItemMapper::convertMenuItemToResponseDTO)
@@ -54,28 +66,48 @@ public class RestaurantServiceImpl implements RestaurantService{
 
     @Override
     public RestaurantResponseDTO getRestaurant(Long id) {
-        Restaurant restaurant = restaurantRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Restaurant not found with id: " + id));
-        return restaurantMapper.convertRestaurentToResponseDTO(restaurant);
+        try{
+            Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+            return restaurantMapper.convertRestaurentToResponseDTO(unwrapRestaurant(restaurant));
+        }catch (EntityNotFoundException e){
+            logger.error("Failed to find restaurant with id {}: {}", id, e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     @Transactional
     public Restaurant createRestaurant(RestaurantDTO restaurantDTO) {
-        Restaurant restaurant = new Restaurant();
-        restaurant.setName(restaurantDTO.getName());
-        restaurant.setAddress(restaurantDTO.getAddress());
-        restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
-        return restaurantRepository.save(restaurant);
+        try{
+            Restaurant restaurant = new Restaurant();
+            restaurant.setName(restaurantDTO.getName());
+            restaurant.setAddress(restaurantDTO.getAddress());
+            restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
+            return restaurantRepository.save(restaurant);
+        }catch(DataIntegrityViolationException ex){
+            throw new DuplicateEntityException("Restaurant");
+        }
+
     }
 
     @Override
+    @Transactional
     public void deleteRestaurant(Long id) {
+        if (!restaurantRepository.existsById(id)) {
+            logger.error("Attempted to delete a restaurant that does not exist with id: {}", id);
+            throw new EntityNotFoundException("Restaurant not found with id: " + id);
+        }
         restaurantRepository.deleteById(id);
+        logger.info("Restaurant with id {} successfully deleted", id);
     }
 
     @Override
     public List<RestaurantResponseDTO> getRestaurants() {
         return null;
+    }
+
+    static Restaurant unwrapRestaurant(Optional<Restaurant> entity) {
+        if (entity.isPresent()) return entity.get();
+        else throw new EntityNotFoundException();
     }
 }
