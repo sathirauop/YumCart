@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Profile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,17 +36,28 @@ public class YumCartApplication implements CommandLineRunner {
 
 
     @Override
+    @Profile("!test")
     public void run(String... args) throws Exception {
 
-        Category cat1 = new Category(1L,"category1","description1",new ArrayList<MenuItem>());
-        Category cat2 = new Category(2L,"category2","description2",new ArrayList<MenuItem>());
+        if ("true".equals(System.getProperty("skipDataSeeding"))) {
+            return;
+        }
+
+        Category cat1 = new Category(1L,"category1","description1",new ArrayList<MenuItem>(),new ArrayList<Restaurant>());
+        Category cat2 = new Category(2L,"category2","description2",new ArrayList<MenuItem>(),new ArrayList<Restaurant>());
+//        cat1.setRestaurants(new ArrayList<Restaurant>());
+//        cat2.setRestaurants(new ArrayList<Restaurant>());
         categoryRepository.save(cat1);
         categoryRepository.save(cat2);
 
-        Restaurant restaurant1 = new Restaurant(1L,"helaRawla", "dw", "dfsf",null,new ArrayList<MenuItem>(),null);
-        Restaurant restaurant2 = new Restaurant(1L,"helaRawla2", "dw2", "dfsf2",null,new ArrayList<MenuItem>(),null);
+        Restaurant restaurant1 = new Restaurant(1L,"helaRawla", "dw", "dfsf",null,new ArrayList<MenuItem>(),null,new ArrayList<Category>());
+        Restaurant restaurant2 = new Restaurant(2L,"helaRawla2", "dw2", "dfsf2",null,new ArrayList<MenuItem>(),null,new ArrayList<Category>());
+        restaurant1.addCategory(cat1);
+        restaurant1.addCategory(cat2);
+        restaurant2.addCategory(cat2);
         restaurantRepository.save(restaurant1);
         restaurantRepository.save(restaurant2);
+
 
 
         MenuItem menuItem11 = new MenuItem(1L,"specialrice11","description11",new BigDecimal(1001),null,null,null,null,restaurant1);

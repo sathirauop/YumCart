@@ -24,6 +24,12 @@ public class MenuItemController {
         this.menuItemService = menuItemService;
     }
 
+    @GetMapping("/id/{menuItemId}")
+    public ResponseEntity<MenuItemResponseDTO> getMenuItems(@PathVariable Long menuItemId){
+        MenuItemResponseDTO menuItems = menuItemService.getMenuItem(menuItemId);
+        return ResponseEntity.ok(menuItems);
+    }
+//////////////////////////////////////////////////////////////////////
     @GetMapping("/{restaurantId}/restaurant")
     public ResponseEntity<List<MenuItemResponseDTO>> getMenuItemsbyRestaurantId(@PathVariable Long restaurantId){
         List<MenuItemResponseDTO> menuItems = menuItemService.getMenuItemsbyRestaurent(restaurantId);
@@ -39,5 +45,7 @@ public class MenuItemController {
 //    public ResponseEntity<Restaurant> saveMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
 //        return new ResponseEntity<>(menuItemService.createMenuItem(menuItemDTO), HttpStatus.CREATED);
 //    }
+
+
 
 }

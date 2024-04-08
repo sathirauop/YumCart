@@ -3,9 +3,11 @@
     import com.sathira.yumcart.module.menu.dto.MenuItemResponseDTO;
     import com.sathira.yumcart.module.menu.model.MenuItem;
     import com.sathira.yumcart.module.restaurant.dto.RestaurantDTO;
+    import com.sathira.yumcart.module.restaurant.dto.RestaurantListResponseDTO;
     import com.sathira.yumcart.module.restaurant.dto.RestaurantResponseDTO;
     import com.sathira.yumcart.module.restaurant.model.Restaurant;
     import com.sathira.yumcart.module.restaurant.service.RestaurantService;
+    import jakarta.validation.Valid;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.http.HttpStatus;
     import org.springframework.http.MediaType;
@@ -25,16 +27,16 @@
             this.restaurantService = restaurantService;
         }
 
-        @GetMapping()
-        public ResponseEntity<List<RestaurantResponseDTO>> getAllRestaurants() {
-            List<RestaurantResponseDTO> restaurants = restaurantService.getRestaurants();
+        @GetMapping("/list")
+        public ResponseEntity<List<RestaurantListResponseDTO>> getAllRestaurantsMinimalDetailList() {
+            List<RestaurantListResponseDTO> restaurants = restaurantService.getRestaurantsList();
             return ResponseEntity.ok(restaurants);
         }
 
         @GetMapping(value = "/id/{restaurantId}")
         public ResponseEntity<RestaurantResponseDTO> getRestaurant(@PathVariable Long restaurantId) {
-            RestaurantResponseDTO restaurants = restaurantService.getRestaurant(restaurantId);
-            return ResponseEntity.ok(restaurants);
+            RestaurantResponseDTO restaurant = restaurantService.getRestaurant(restaurantId);
+            return ResponseEntity.ok(restaurant);
         }
 
         @GetMapping("/{restaurantId}/menuItems")
@@ -44,8 +46,7 @@
         }
 
         @PostMapping()
-        public ResponseEntity<Restaurant> saveRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
+        public ResponseEntity<Restaurant> saveRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) {
             return new ResponseEntity<>(restaurantService.createRestaurant(restaurantDTO), HttpStatus.CREATED);
         }
-
     }

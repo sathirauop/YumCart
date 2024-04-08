@@ -3,6 +3,7 @@ package com.sathira.yumcart.module.menu.service;
 import com.sathira.yumcart.module.menu.dto.MenuItemDTO;
 import com.sathira.yumcart.module.menu.dto.MenuItemResponseDTO;
 import com.sathira.yumcart.module.menu.dto.StandAloneMenuItemResponseDTO;
+import com.sathira.yumcart.module.menu.model.Category;
 import com.sathira.yumcart.module.menu.model.MenuItem;
 import com.sathira.yumcart.module.restaurant.model.Restaurant;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 public interface MenuItemService {
 
-    public StandAloneMenuItemResponseDTO getMenuItem(Long id);
+    public MenuItemResponseDTO getMenuItem(Long id);
 
     public MenuItem save(MenuItem menuItem);
 

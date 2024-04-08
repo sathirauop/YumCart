@@ -2,12 +2,14 @@ package com.sathira.yumcart.module.menu.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sathira.yumcart.module.restaurant.model.Restaurant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,9 +35,16 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<MenuItem> menuItems;
 
-    public void addMenuItems(MenuItem item) {
-        menuItems.add(item);
-        item.setCategory(this);
+
+    @ManyToMany(mappedBy = "categories")
+    private List<Restaurant> restaurants;
+
+    public void addMenuItem(MenuItem menuItem) {
+        menuItems.add(menuItem);
+        menuItem.setCategory(this);
+    }
+    public void addRestaurants(Restaurant restaurant){
+        this.restaurants.add(restaurant);
     }
 
 }

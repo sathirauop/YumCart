@@ -12,9 +12,11 @@ import java.util.Optional;
 public interface CategoryService {
 
     List<CategoryResposeDTO> findAllCategories();
-    Optional<Category> findCategoryById(Long id);
+
+    List<CategoryResposeDTO> findCategoriesbyRestaurant(Long restaurantId);
+    CategoryResposeDTO findCategoryById(Long id);
     Category saveCategory(Category category);
     void deleteCategory(Long id);
-    Optional<Category> findCategoryByName(String name);
+    CategoryResposeDTO findCategoryByName(String name);
 
 }
