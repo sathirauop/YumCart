@@ -79,6 +79,8 @@ public class RestaurantServiceImpl implements RestaurantService{
     @Transactional
     public Restaurant createRestaurant(RestaurantDTO restaurantDTO) {
         try{
+            //NOTE : Errors are not properly handled. There can be many kinds of DataIntegrityViolationExceptions that is not
+            //       Duplicate entries. (Ex: required field null)
             Restaurant restaurant = new Restaurant();
             restaurant.setName(restaurantDTO.getName());
             restaurant.setAddress(restaurantDTO.getAddress());
@@ -87,7 +89,6 @@ public class RestaurantServiceImpl implements RestaurantService{
         }catch(DataIntegrityViolationException ex){
             throw new DuplicateEntityException("Restaurant");
         }
-
     }
 
     @Override

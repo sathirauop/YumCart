@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Profile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,7 +36,12 @@ public class YumCartApplication implements CommandLineRunner {
 
 
     @Override
+    @Profile("!test")
     public void run(String... args) throws Exception {
+
+        if ("true".equals(System.getProperty("skipDataSeeding"))) {
+            return;
+        }
 
         Category cat1 = new Category(1L,"category1","description1",new ArrayList<MenuItem>(),new ArrayList<Restaurant>());
         Category cat2 = new Category(2L,"category2","description2",new ArrayList<MenuItem>(),new ArrayList<Restaurant>());

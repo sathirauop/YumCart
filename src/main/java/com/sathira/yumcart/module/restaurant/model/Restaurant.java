@@ -61,7 +61,7 @@
 
         public void addCategory(Category category) {
             categories.add(category);
-            category.getRestaurants().add(this);
+            category.addRestaurants(this);
         }
 
 

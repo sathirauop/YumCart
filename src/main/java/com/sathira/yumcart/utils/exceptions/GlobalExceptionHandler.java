@@ -17,18 +17,18 @@ public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleAllExceptions(Exception ex, WebRequest request) {
-        logger.error("An unexpected error occurred: ", ex.getMessage(), ex);
-        // Customize the response based on the exception
-        ApiErrorResponse response = new ApiErrorResponse(
-                LocalDateTime.now(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Unexpected Error",
-                ex.getMessage(),
-                request.getDescription(false));
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<?> handleAllExceptions(Exception ex, WebRequest request) {
+//        logger.error("An unexpected error occurred: ", ex.getMessage(), ex);
+//        // Customize the response based on the exception
+//        ApiErrorResponse response = new ApiErrorResponse(
+//                LocalDateTime.now(),
+//                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//                "Unexpected Error",
+//                ex.getMessage(),
+//                request.getDescription(false));
+//        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {

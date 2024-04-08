@@ -5,3 +5,6 @@ public class DuplicateEntityException extends RuntimeException {
         super("Trying to create duplicate records with "+EntityName);
     }
 }
+
+// TODO : Not only when duplicate entries found but other thinks like a required fiels gets null also this error occurs
+//  as this implementation.

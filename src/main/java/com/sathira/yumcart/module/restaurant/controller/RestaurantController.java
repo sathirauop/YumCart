@@ -7,6 +7,7 @@
     import com.sathira.yumcart.module.restaurant.dto.RestaurantResponseDTO;
     import com.sathira.yumcart.module.restaurant.model.Restaurant;
     import com.sathira.yumcart.module.restaurant.service.RestaurantService;
+    import jakarta.validation.Valid;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.http.HttpStatus;
     import org.springframework.http.MediaType;
@@ -45,8 +46,7 @@
         }
 
         @PostMapping()
-        public ResponseEntity<Restaurant> saveRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
+        public ResponseEntity<Restaurant> saveRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) {
             return new ResponseEntity<>(restaurantService.createRestaurant(restaurantDTO), HttpStatus.CREATED);
         }
-
     }

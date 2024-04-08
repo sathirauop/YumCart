@@ -3,6 +3,9 @@ package com.sathira.yumcart.module.restaurant.dto;
 //import javax.validation.constraints.NotBlank;
 //import javax.validation.constraints.Size;
 
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +17,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RestaurantDTO {
 
-//    @NotBlank(message = "Restaurant name is required")
-//    @Size(max = 255, message = "Restaurant name must not exceed 255 characters")
+    @NotBlank(message = "Restaurant name is required")
+    @Size(max = 255, message = "Restaurant name must not exceed 255 characters")
     private String name;
 
-//    @NotBlank(message = "Address is required")
-//    @Size(max = 500, message = "Address must not exceed 500 characters")
+    @NotBlank(message = "Address is required")
+    @Size(max = 500, message = "Address must not exceed 500 characters")
     private String address;
 
 //    @NotBlank(message = "Phone number is required")
@@ -30,7 +33,7 @@ public class RestaurantDTO {
 
 //    private List<ReviewDTO> reviews; // Assuming ReviewDTO is defined elsewhere
 
-
-
-
 }
+
+
+// TODO : Need to add proper validation into the request DTOs

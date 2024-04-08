@@ -42,8 +42,8 @@ public class Category {
         menuItems.add(menuItem);
         menuItem.setCategory(this);
     }
-//    public void setRestaurants(List<Restaurant> restaurants){
-//        this.restaurants = restaurants;
-//    }
+    public void addRestaurants(Restaurant restaurant){
+        this.restaurants.add(restaurant);
+    }
 
 }

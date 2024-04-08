@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    List<Category> findByMenuItemsId(Long menuItemId);
+    Optional<Category> findByMenuItemsId(Long menuItemId);
 
     @Query("SELECT c FROM Category c JOIN c.restaurants r WHERE r.id = :restaurantId")
     List<Category> findByRestaurantId(Long restaurantId);
