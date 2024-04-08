@@ -57,10 +57,10 @@ class CategoryRepositoryTest {
     void findByMenuItemsId() {
 
         //given
-        Category cat1 = new Category(1L,"category1","xxxxxx1",new ArrayList<MenuItem>(),new ArrayList<Restaurant>());
+        Category cat1 = new Category(1L,"category1","Category description1",new ArrayList<MenuItem>(),new ArrayList<Restaurant>());
         underTest.save(cat1);
 
-        Restaurant restaurant1 = new Restaurant(1L,"rest1", "xxxxxxx", "dfsf",null,new ArrayList<MenuItem>(),null,new ArrayList<Category>());
+        Restaurant restaurant1 = new Restaurant(1L,"rest1", "address1", "dfsf",null,new ArrayList<MenuItem>(),null,new ArrayList<Category>());
         restaurant1.addCategory(cat1);
         restUnderTest.save(restaurant1);
 
@@ -86,10 +86,10 @@ class CategoryRepositoryTest {
     void findByRestaurantId() {
 
         //given
-        Category cat1 = new Category(1L,"category1","xxxxxx1",new ArrayList<MenuItem>(),new ArrayList<Restaurant>());
+        Category cat1 = new Category(1L,"category1","Category description1",new ArrayList<MenuItem>(),new ArrayList<Restaurant>());
         underTest.save(cat1);
 
-        Restaurant restaurant1 = new Restaurant(1L,"rest1", "xxxxxxx", "dfsf",null,new ArrayList<MenuItem>(),null,new ArrayList<Category>());
+        Restaurant restaurant1 = new Restaurant(1L,"rest1", "Restaurent description1", "0717568407",null,new ArrayList<MenuItem>(),null,new ArrayList<Category>());
         restaurant1.addCategory(cat1);
         restUnderTest.save(restaurant1);
         Long generatedId = restaurant1.getId();

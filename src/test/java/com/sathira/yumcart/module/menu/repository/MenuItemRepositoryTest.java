@@ -52,7 +52,7 @@ class MenuItemRepositoryTest {
     void findByRestaurantId() {
 
 //      given
-        Restaurant restaurant1 = new Restaurant(1L,"rest1", "xxxxxxx", "dfsf",null,new ArrayList<MenuItem>(),null,new ArrayList<Category>());
+        Restaurant restaurant1 = new Restaurant(1L,"rest1", "address1", "0717568407",null,new ArrayList<MenuItem>(),null,new ArrayList<Category>());
         restUnderTest.save(restaurant1);
         Long generatedId = restaurant1.getId();
 
@@ -76,11 +76,11 @@ class MenuItemRepositoryTest {
     void findByCategoryId() {
 
         //when
-        Category cat1 = new Category(1L,"category1","xxxxxx1",new ArrayList<MenuItem>(),new ArrayList<Restaurant>());
+        Category cat1 = new Category(1L,"category1","Category description1",new ArrayList<MenuItem>(),new ArrayList<Restaurant>());
         catUnderTest.save(cat1);
         Long generatedId = cat1.getId();
 
-        Restaurant restaurant1 = new Restaurant(1L,"rest1", "xxxxxxx", "dfsf",null,new ArrayList<MenuItem>(),null,new ArrayList<Category>());
+        Restaurant restaurant1 = new Restaurant(1L,"rest1", "address1", "0717568407",null,new ArrayList<MenuItem>(),null,new ArrayList<Category>());
         restaurant1.addCategory(cat1);
         restUnderTest.save(restaurant1);
 
