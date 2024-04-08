@@ -35,6 +35,7 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<MenuItem> menuItems;
 
+
     @ManyToMany(mappedBy = "categories")
     private List<Restaurant> restaurants;
 

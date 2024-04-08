@@ -40,6 +40,7 @@
         @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = false)
         private List<Review> reviews;
 
+
         @ManyToMany
         @JoinTable(
                 name = "restaurant_category",
