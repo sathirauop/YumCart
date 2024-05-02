@@ -26,25 +26,32 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(length = 1024) // Optional: for categories that need a description
+    @Column(name = "description", length = 1024) // Optional: for categories that need a description
     private String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<MenuItem> menuItems;
+    @OneToMany(mappedBy = "category", orphanRemoval = false)
+    @Column(name = "menu_itmes")
+    private List<MenuItem> menuItems = new ArrayList<>();
 
 
     @ManyToMany(mappedBy = "categories")
-    private List<Restaurant> restaurants;
+    @Column(name = "restaurents")
+    private List<Restaurant> restaurants = new ArrayList<>();
 
-    public void addMenuItem(MenuItem menuItem) {
-        menuItems.add(menuItem);
-        menuItem.setCategory(this);
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
-    public void addRestaurants(Restaurant restaurant){
-        this.restaurants.add(restaurant);
-    }
+
+//    public void addMenuItem(MenuItem menuItem) {
+//        menuItems.add(menuItem);
+//        menuItem.setCategory(this);
+//    }
+//    public void addRestaurants(Restaurant restaurant){
+//        this.restaurants.add(restaurant);
+//    }
 
 }

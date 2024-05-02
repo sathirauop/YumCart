@@ -9,11 +9,12 @@ import org.mapstruct.Mapping;
 
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {MenuItemPortionMapper.class})
 public interface MenuItemMapper {
 //    convertMenuItemToResponseDTO
     @Mapping(target = "category", expression = "java(menuItem.getCategory() != null ? menuItem.getCategory().getName() : null)")
     @Mapping(target = "restaurant", expression = "java(menuItem.getRestaurant() != null ? menuItem.getRestaurant().getName() : null)")
+    @Mapping(source = "portions", target = "portions")
     MenuItemResponseDTO convertMenuItemToResponseDTO(MenuItem menuItem);
 
     @Mapping(target = "category", expression = "java(menuItem.getCategory() != null ? menuItem.getCategory().getName() : null)")

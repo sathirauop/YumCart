@@ -2,6 +2,7 @@ package com.sathira.yumcart.module.menu.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,5 +21,5 @@ public class MenuItemOptionGroup {
     private MenuItem menuItem;
 
     @OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MenuItemOption> options;
+    private List<MenuItemOption> options =  new ArrayList<>();
 }
